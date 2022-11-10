@@ -84,5 +84,82 @@ module.exports = {
                 data : getData
             })
         }
+    },
+    updateAllOrders : async(req,res,next)=>{
+        try {
+            // console.log(req.body.data.length);
+            let dataOrder = req.body.data;
+            for(let data of dataOrder){
+                let dataid = data._id;
+                let order_id = data.order_id;
+                let invoice_no = data.invoice_no;
+                let marketplace = data.marketplace;
+                let store_name = data.store_name;
+                let validasi1status = data.validasi1status;
+                let checkProductAt = data.checkProductAt;
+                let errorLog = data.errorLog;
+                let pickliststatus = data.pickliststatus;
+                let productavailablestatus = data.productavailablestatus;
+                let validasi2status = data.validasi2status;
+                let updatedAt = new Date(data.updatedAt);
+                let validasi1At = new Date(data.validasi1At);
+                let validasi1By = data.validasi1By;
+                let checkboxstatus = data.checkboxstatus;
+                let checkstatusBy = data.checkstatusBy;
+                let comment = data.comment;
+                let batchAt = data.batchAt == null ? null : new Date(data.batchAt);
+                let batchBy = data.batchBy;
+                let batchid = data.batchid;
+                let completedAt = data.completedAt == null ? null : new Date(data.completedAt);
+                let completedBy = data.completedBy;
+                let completedStatus = data.completedStatus;
+                let validasi2By = data.validasi2By;
+                let movement_status = data.movement_status;
+                let printedstatus = data.printedstatus;
+                let validasi2At = data.validasi2At == null ? null : new Date(data.validasi2At);
+                let localServer = true;
+
+                let dataUpdate = {
+                    validasi1status,
+                    checkProductAt,
+                    errorLog,
+                    pickliststatus,
+                    productavailablestatus,
+                    validasi2status,
+                    updatedAt,
+                    validasi1At,
+                    validasi1By,
+                    checkboxstatus,
+                    checkstatusBy,
+                    comment,
+                    batchAt,
+                    batchBy,
+                    batchid,
+                    completedAt,
+                    completedBy,
+                    completedStatus,
+                    validasi2By,
+                    movement_status,
+                    printedstatus,
+                    validasi2At,
+                    localServer
+                };
+
+                console.log(data)
+                // console.log(dataUpdate)
+
+                let updateOrder = await allOrders.findOneAndUpdate({$and : [
+                    {"order_id" : order_id},
+                    {"invoice_no" : invoice_no},
+                    {"store_name" : store_name}
+                ]},dataUpdate);
+            }
+            return res.json({
+                code : 200,
+                message : "Success update data"
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 } 

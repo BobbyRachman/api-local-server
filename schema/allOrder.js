@@ -139,10 +139,7 @@ let AllOrder = new Schema({
             }
         }
     ],
-    validasi1status: {
-        type : Boolean,
-        default : false
-    },
+    validasi1status: {},
     create_date : {
         type : Date
     },
@@ -154,18 +151,12 @@ let AllOrder = new Schema({
         type : Number,
         default : 0
     },
-    pickliststatus : {
-        type : Boolean,
-        default : false
-    },
+    pickliststatus : {},
     productavailablestatus : {
         type : Boolean,
         default : false
     },
-    validasi2status : {
-        type : Boolean,
-        default : false
-    },
+    validasi2status : {},
     validasi1At : {
         type : Date,
         default : null
@@ -174,10 +165,7 @@ let AllOrder = new Schema({
         type : String,
         default : null
     },
-    checkboxstatus : {
-        type : Boolean,
-        default : false
-    },
+    checkboxstatus : {},
     checkstatusBy : {
         type : String
     },
@@ -197,10 +185,7 @@ let AllOrder = new Schema({
         type : String,
         default : null
     },
-    completedStatus : {
-        type : Boolean,
-        default : false
-    },
+    completedStatus : {},
     validasi2At : {
         type : Date,
         default : null
@@ -209,12 +194,23 @@ let AllOrder = new Schema({
         type : String,
         default : null
     },
+    movement_status : {
+        type : Boolean,
+        default : false
+    },
+    printedstatus : {
+        type : Boolean,
+        default : false
+    },
     createdAt : {
         type : Date,
         default : Date.now
     },
     updatedAt : {
         type : Date
+    },
+    localServer : {
+        type : Boolean
     }
 })
 
