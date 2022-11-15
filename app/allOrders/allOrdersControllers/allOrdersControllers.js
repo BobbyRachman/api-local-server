@@ -5,25 +5,25 @@ const allOrders = require("../../../schema/allOrder");
 const allOrdersModels = require("../allOrdersModels/allOrdersModels");
 
 module.exports = {
-    getAllOrders : async(req,res,next)=>{
-        try{
-            if(req.query.sd == undefined || req.query.ed == undefined || req.query.sd == '' || req.query.ed == ''){
+    getAllOrders: async (req, res, next) => {
+        try {
+            if (req.query.sd == undefined || req.query.ed == undefined || req.query.sd == '' || req.query.ed == '') {
                 return res.json({
-                    code : 400,
-                    success : false,
-                    message : "Please insert sd and ed completely"
+                    code: 400,
+                    success: false,
+                    message: "Please insert sd and ed completely"
                 })
-            } else if(req.query.mp == undefined || req.query.mp == ''){
+            } else if (req.query.mp == undefined || req.query.mp == '') {
                 return res.json({
-                    code : 400,
-                    success : false,
-                    message : "Please insert mp"
+                    code: 400,
+                    success: false,
+                    message: "Please insert mp"
                 })
-            } else if (req.query.brand == undefined || req.query.brand == ''){
+            } else if (req.query.brand == undefined || req.query.brand == '') {
                 return res.json({
-                    code : 400,
-                    success : false,
-                    message : "Please insert brand"
+                    code: 400,
+                    success: false,
+                    message: "Please insert brand"
                 })
             } else {
                 let sd = new Date(req.query.sd);
@@ -34,58 +34,58 @@ module.exports = {
                 let limit = req.query.limit == undefined ? 500 : req.query.limit == '' ? 500 : parseInt(req.query.limit);
 
 
-                let getData = await allOrdersModels.searchDataAllOrder(sd,ed,mp,brand,offset,limit);
+                let getData = await allOrdersModels.searchDataAllOrder(sd, ed, mp, brand, offset, limit);
                 return res.json({
-                    code : 200,
-                    success : true,
-                    message : "Success get data",
-                    data : getData
+                    code: 200,
+                    success: true,
+                    message: "Success get data",
+                    data: getData
                 })
             }
 
-        } catch(error){
+        } catch (error) {
             return res.json({
-                code : 500,
-                success : true,
-                message : "Success get data",
-                data : getData
-            })  
+                code: 500,
+                success: true,
+                message: "Success get data",
+                data: getData
+            })
         }
     },
-    singleOrders : async(req,res,next)=>{
-        if(req.query.mp == undefined || req.query.mp == ''){
+    singleOrders: async (req, res, next) => {
+        if (req.query.mp == undefined || req.query.mp == '') {
             return res.json({
-                code : 400,
-                success : false,
-                message : "Please insert mp"
+                code: 400,
+                success: false,
+                message: "Please insert mp"
             })
-        } else if(req.query.brand == undefined || req.query.brand == ''){
+        } else if (req.query.brand == undefined || req.query.brand == '') {
             return res.json({
-                code : 400,
-                success : false,
-                message : "Please insert brand"
+                code: 400,
+                success: false,
+                message: "Please insert brand"
             })
-        } else if(req.query.orderId == undefined || req.query.orderId == ''){
+        } else if (req.query.orderId == undefined || req.query.orderId == '') {
             return res.json({
-                code : 400,
-                success : false,
-                message : "Please insert orderId"
+                code: 400,
+                success: false,
+                message: "Please insert orderId"
             })
         } else {
             let mp = req.query.mp.toLowerCase();
             let brand = req.query.brand.toUpperCase();
             let orderId = req.query.orderId;
 
-            let getData = await allOrdersModels.searchDataSingleOrder(mp,brand,orderId);
+            let getData = await allOrdersModels.searchDataSingleOrder(mp, brand, orderId);
             return res.json({
-                code : 200,
-                success : true,
-                message : "Success get data",
-                data : getData
+                code: 200,
+                success: true,
+                message: "Success get data",
+                data: getData
             })
         }
     },
-    updateAllOrders : async(req,res,next)=>{
+    updateAllOrders: async (req, res, next) => {
         try {
             // console.log(req.body.data.length);
             let dataOrder = req.body.data;
@@ -161,5 +161,37 @@ module.exports = {
         } catch (error) {
             console.log(error)
         }
+    },
+    updateCompletedAt: async (req, res, next) => {
+        try {
+            let order_id = req.body.order_id;
+            let invoice_no = req.body.invoice_no;
+            let completedAt = req.body.completedAt;
+            let completedBy = req.body.completedBy;
+            let completedStatus = req.body.completedStatus;
+
+            let dataUpdate = {
+                completedAt,
+                completedBy,
+                completedStatus
+            };
+
+            let updateOrder = await allOrders.findOneAndUpdate({
+                $and: [
+                    { "order_id": order_id },
+                    { "invoice_no": invoice_no }
+                ]
+            }, dataUpdate);
+
+            if (updateOrder) {
+                return res.json({
+                    code: 200,
+                    message: "Success updating invoice : " + invoice_no + ""
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 } 
