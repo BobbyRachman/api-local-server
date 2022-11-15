@@ -6,6 +6,7 @@ const allOrdersControllers = require('../allOrdersControllers/allOrdersControlle
 allOrdersRouter.get('/allOrders',allOrdersControllers.getAllOrders);
 allOrdersRouter.get('/singleOrders',allOrdersControllers.singleOrders);
 allOrdersRouter.post('/updateOrders',allOrdersControllers.updateAllOrders);
+allOrdersRouter.post('/updateCompletedAt',allOrdersControllers.updateCompletedAt);
 
 
 module.exports = allOrdersRouter;

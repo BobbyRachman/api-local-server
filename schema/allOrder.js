@@ -186,6 +186,12 @@ let AllOrder = new Schema({
         default : null
     },
     completedStatus : {},
+    completedAt : {
+        type : Date,
+    },
+    completedBy : {
+        type : String
+    },
     validasi2At : {
         type : Date,
         default : null
